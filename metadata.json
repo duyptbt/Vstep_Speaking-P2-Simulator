@@ -1,0 +1,10 @@
+{
+  "name": "VSTEP Speaking Part 2 Simulator",
+  "description": "VSTEP Speaking Part 2 (Solution Discussion) simulator with split view mode, 1-minute Prep Timer for note taking, 3-minute Response Timer, bilingual EN/VI guides, female British TTS voice model answers, and combined audio exporter.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
