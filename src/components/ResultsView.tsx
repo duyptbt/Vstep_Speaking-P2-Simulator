@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TestResult, QuestionSet } from "../types";
 import { speakText } from "../utils/tts";
 import { mergeAudioBlobs } from "../utils/audio";
+import { TtsSpeedControl } from "./TtsSpeedControl";
 import {
   generateQuestionsTextReport,
   triggerFileDownload,
@@ -381,7 +382,10 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
               <Award className="w-4 h-4 text-emerald-600" />
               VSTEP Part 2 Model Answers (B1 & B2 Benchmarks)
             </span>
-            <span className="text-xs text-slate-500">Compare Band B1 (Intermediate) vs Band B2 (Upper-Intermediate)</span>
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-slate-500 hidden md:inline">Voice Speed:</span>
+              <TtsSpeedControl />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

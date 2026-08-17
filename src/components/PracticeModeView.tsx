@@ -3,6 +3,7 @@ import { QuestionSet, RecordingChunk, TestResult, AppTheme } from "../types";
 import { speakText, stopSpeaking } from "../utils/tts";
 import { SpeechToTextEngine } from "../utils/audio";
 import { THEMES } from "../utils/theme";
+import { TtsSpeedControl } from "./TtsSpeedControl";
 import {
   Volume2,
   Mic,
@@ -175,18 +176,21 @@ export const PracticeModeView: React.FC<PracticeModeViewProps> = ({
           
           {/* Situation & 3 Options Card */}
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-5">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
               <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
                 <FileText className="w-4 h-4" />
                 VSTEP Part 2 Situation
               </span>
-              <button
-                onClick={() => speakText(`Situation: ${question.situation}`)}
-                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
-              >
-                <Volume2 className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Listen (British Female)</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <TtsSpeedControl />
+                <button
+                  onClick={() => speakText(`Situation: ${question.situation}`)}
+                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
+                >
+                  <Volume2 className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Listen Prompt</span>
+                </button>
+              </div>
             </div>
 
             <div className="bg-slate-800/80 border border-slate-700/80 rounded-xl p-4">
@@ -535,23 +539,26 @@ export const PracticeModeView: React.FC<PracticeModeViewProps> = ({
                 </span>
               </div>
 
-              <button
-                onClick={() =>
-                  speakText(
+              <div className="flex flex-wrap items-center gap-2">
+                <TtsSpeedControl />
+                <button
+                  onClick={() =>
+                    speakText(
+                      selectedBand === "B1"
+                        ? question.modelAnswerB1 || question.modelAnswer
+                        : question.modelAnswerB2 || question.modelAnswer
+                    )
+                  }
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 shadow-md flex-shrink-0 text-white ${
                     selectedBand === "B1"
-                      ? question.modelAnswerB1 || question.modelAnswer
-                      : question.modelAnswerB2 || question.modelAnswer
-                  )
-                }
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 shadow-md flex-shrink-0 text-white ${
-                  selectedBand === "B1"
-                    ? "bg-blue-600 hover:bg-blue-500"
-                    : "bg-emerald-600 hover:bg-emerald-500"
-                }`}
-              >
-                <Volume2 className="w-3.5 h-3.5" />
-                <span>Listen {selectedBand} Model (British Female TTS)</span>
-              </button>
+                      ? "bg-blue-600 hover:bg-blue-500"
+                      : "bg-emerald-600 hover:bg-emerald-500"
+                  }`}
+                >
+                  <Volume2 className="w-3.5 h-3.5" />
+                  <span>Listen {selectedBand} Model</span>
+                </button>
+              </div>
             </div>
 
             {/* Model Answer Box */}

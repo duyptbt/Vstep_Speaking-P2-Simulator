@@ -1,0 +1,86 @@
+import React, { useState, useEffect } from "react";
+import {
+  TTS_SPEED_OPTIONS,
+  getTTSPlaybackRate,
+  setTTSPlaybackRate
+} from "../utils/tts";
+import { Gauge, FastForward } from "lucide-react";
+
+interface TtsSpeedControlProps {
+  variant?: "compact" | "badge" | "full";
+  className?: string;
+}
+
+export const TtsSpeedControl: React.FC<TtsSpeedControlProps> = ({
+  variant = "compact",
+  className = ""
+}) => {
+  const [currentSpeed, setCurrentSpeed] = useState<number>(() => getTTSPlaybackRate());
+
+  useEffect(() => {
+    const handleSpeedChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ rate: number }>;
+      if (customEvent.detail && customEvent.detail.rate) {
+        setCurrentSpeed(customEvent.detail.rate);
+      }
+    };
+
+    window.addEventListener("vstep_tts_speed_changed", handleSpeedChange);
+    return () => {
+      window.removeEventListener("vstep_tts_speed_changed", handleSpeedChange);
+    };
+  }, []);
+
+  const handleChange = (newRate: number) => {
+    setCurrentSpeed(newRate);
+    setTTSPlaybackRate(newRate);
+  };
+
+  if (variant === "badge") {
+    return (
+      <div className={`inline-flex items-center gap-1.5 ${className}`}>
+        <span className="text-[11px] font-semibold text-slate-400">Speed:</span>
+        <div className="inline-flex rounded-lg bg-slate-800/80 p-0.5 border border-slate-700">
+          {TTS_SPEED_OPTIONS.map((opt) => {
+            const isSelected = Math.abs(currentSpeed - opt.value) < 0.01;
+            return (
+              <button
+                key={opt.value}
+                onClick={() => handleChange(opt.value)}
+                className={`px-2 py-0.5 text-[11px] font-bold rounded transition ${
+                  isSelected
+                    ? "bg-amber-500 text-slate-950 shadow-sm"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+                title={`Set TTS speech rate to ${opt.value}x`}
+              >
+                {opt.value}x
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // Compact dropdown (useful in Header or cards)
+  return (
+    <div className={`relative inline-flex items-center gap-1.5 ${className}`}>
+      <div className="relative">
+        <select
+          value={currentSpeed}
+          onChange={(e) => handleChange(parseFloat(e.target.value))}
+          className="appearance-none pl-7 pr-6 py-1.5 bg-slate-800/90 hover:bg-slate-800 text-amber-300 border border-slate-700 rounded-xl text-xs font-bold focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer transition shadow-sm"
+          title="Adjust TTS Voice Playback Speed"
+        >
+          {TTS_SPEED_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value} className="bg-slate-900 text-slate-100">
+              Voice: {opt.label}
+            </option>
+          ))}
+        </select>
+        <Gauge className="w-3.5 h-3.5 text-amber-400 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+      </div>
+    </div>
+  );
+};

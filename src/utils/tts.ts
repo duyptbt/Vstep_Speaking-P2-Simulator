@@ -1,9 +1,40 @@
 /**
- * Text-to-Speech Utility with Female British Voice as Primary Selection
+ * Text-to-Speech Utility with Female British Voice as Primary Selection & Configurable Playback Speed
  */
 
 let selectedVoice: SpeechSynthesisVoice | null = null;
 let currentUtterance: SpeechSynthesisUtterance | null = null;
+
+const SPEED_STORAGE_KEY = "vstep_tts_speed";
+
+export const TTS_SPEED_OPTIONS = [
+  { label: "0.75x (Slow)", value: 0.75 },
+  { label: "0.85x", value: 0.85 },
+  { label: "0.95x (Natural)", value: 0.95 },
+  { label: "1.0x (Standard)", value: 1.0 },
+  { label: "1.15x (Brisk)", value: 1.15 },
+  { label: "1.25x (Fast)", value: 1.25 }
+];
+
+export function getTTSPlaybackRate(): number {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem(SPEED_STORAGE_KEY);
+    if (saved) {
+      const parsed = parseFloat(saved);
+      if (!isNaN(parsed) && parsed >= 0.5 && parsed <= 2.0) {
+        return parsed;
+      }
+    }
+  }
+  return 0.95; // Default natural cadence
+}
+
+export function setTTSPlaybackRate(rate: number): void {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(SPEED_STORAGE_KEY, rate.toString());
+    window.dispatchEvent(new CustomEvent("vstep_tts_speed_changed", { detail: { rate } }));
+  }
+}
 
 export function initializeTTSVoices(onVoicesLoaded?: (voices: SpeechSynthesisVoice[]) => void) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
@@ -106,7 +137,7 @@ export function speakText(
     utterance.lang = "en-GB";
   }
 
-  utterance.rate = options?.rate ?? 0.95; // Slightly natural pace
+  utterance.rate = options?.rate ?? getTTSPlaybackRate();
   utterance.pitch = options?.pitch ?? 1.0;
 
   utterance.onstart = () => {
@@ -139,3 +170,4 @@ export function isSpeaking(): boolean {
   }
   return false;
 }
+

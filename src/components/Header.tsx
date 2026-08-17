@@ -2,6 +2,7 @@ import React from "react";
 import { AppMode, QuestionSet, AppTheme } from "../types";
 import { QUESTION_SETS } from "../data/questionSets";
 import { THEMES } from "../utils/theme";
+import { TtsSpeedControl } from "./TtsSpeedControl";
 import {
   Clock,
   Sparkles,
@@ -131,6 +132,9 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Practice Mode</span>
             </button>
           </div>
+
+          {/* TTS Voice Speed Controller */}
+          <TtsSpeedControl />
 
           {/* Audio Merger & Downloader Tool Modal Button */}
           <button
