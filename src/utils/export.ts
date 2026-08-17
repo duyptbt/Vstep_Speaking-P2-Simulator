@@ -48,18 +48,38 @@ export function generateQuestionsTextReport(
   report += `"${userAns}"\n\n`;
 
   report += `-------------------------------------------------------------------------\n`;
-  report += `[RECOMMENDED B2 VOCABULARY & COLLOCATIONS]:\n`;
+  report += `[BAND B1 LANGUAGE INPUT KIT (INTERMEDIATE 4.0 - 5.5)]:\n`;
   report += `-------------------------------------------------------------------------\n`;
-  question.keywords.forEach((kw) => {
-    report += `  • ${kw}\n`;
+  report += `Goal: ${question.languageInputB1?.levelGoal || "Direct, clear and structured delivery"}\n\n`;
+  report += `Vocabulary & Phrases:\n`;
+  (question.languageInputB1?.vocabulary || []).forEach((v) => {
+    report += `  • ${v.phrase} (${v.meaningVi}) [${v.type || "Vocab"}]\n`;
+  });
+  report += `\nConnectors & Transition Phrases:\n`;
+  (question.languageInputB1?.transitionPhrases || []).forEach((t) => {
+    report += `  • ${t}\n`;
+  });
+  report += `\nResponse Steps:\n`;
+  (question.languageInputB1?.responseFormula || []).forEach((rf) => {
+    report += `  • ${rf}\n`;
   });
   report += `\n`;
 
   report += `-------------------------------------------------------------------------\n`;
-  report += `[ANSWERING STRATEGY & RESPONSE FORMULA]:\n`;
+  report += `[BAND B2 LANGUAGE INPUT KIT (UPPER-INTERMEDIATE 6.0 - 8.0)]:\n`;
   report += `-------------------------------------------------------------------------\n`;
-  question.tips.forEach((tip) => {
-    report += `  • ${tip}\n`;
+  report += `Goal: ${question.languageInputB2?.levelGoal || "Advanced collocations, complex sentence structures and nuanced justification"}\n\n`;
+  report += `Advanced Collocations & Idioms:\n`;
+  (question.languageInputB2?.vocabulary || []).forEach((v) => {
+    report += `  • ${v.phrase} (${v.meaningVi}) [${v.type || "Collocation"}]\n`;
+  });
+  report += `\nDiscourse Markers & Complex Connectors:\n`;
+  (question.languageInputB2?.transitionPhrases || []).forEach((t) => {
+    report += `  • ${t}\n`;
+  });
+  report += `\nStrategic Steps:\n`;
+  (question.languageInputB2?.responseFormula || []).forEach((rf) => {
+    report += `  • ${rf}\n`;
   });
   report += `\n`;
 

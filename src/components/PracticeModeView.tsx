@@ -280,34 +280,189 @@ export const PracticeModeView: React.FC<PracticeModeViewProps> = ({
         {/* RIGHT COLUMN: GUIDES, MODEL ANSWER & RECORDER */}
         <div className="space-y-6">
           
-          {/* Key B2 Vocabulary & Phrases */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
-            <div className="flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider">
-              <Sparkles className="w-4 h-4" />
-              <span>Key B2 Vocabulary & Phrases (Từ Vựng & Cụm Từ B2)</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {question.keywords.map((kw, i) => (
-                <span
-                  key={i}
-                  className="px-2.5 py-1 bg-slate-800 border border-slate-700/80 rounded-lg text-xs text-slate-200 font-medium"
-                >
-                  {kw}
+          {/* MASTER BAND LEVEL CONTROLLER */}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+              <div className="flex items-center space-x-2">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                <span className="text-xs font-bold text-white uppercase tracking-wider">
+                  Target Proficiency Language Toolkit
                 </span>
+              </div>
+
+              {/* Band B1 vs B2 Switcher */}
+              <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800">
+                <button
+                  onClick={() => setSelectedBand("B1")}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                    selectedBand === "B1"
+                      ? "bg-blue-600 text-white shadow-md"
+                      : "text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  <Award className="w-3.5 h-3.5" />
+                  <span>Band B1 (4.0 - 5.5)</span>
+                </button>
+
+                <button
+                  onClick={() => setSelectedBand("B2")}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                    selectedBand === "B2"
+                      ? "bg-emerald-600 text-white shadow-md"
+                      : "text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  <Award className="w-3.5 h-3.5" />
+                  <span>Band B2 (6.0 - 8.0)</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Level Goal & Overview */}
+            <div className={`p-3.5 rounded-xl border text-xs leading-relaxed ${
+              selectedBand === "B1"
+                ? "bg-blue-950/40 border-blue-800/40 text-blue-200"
+                : "bg-emerald-950/40 border-emerald-800/40 text-emerald-200"
+            }`}>
+              <div className="font-bold flex items-center gap-1.5 mb-1">
+                <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold uppercase ${
+                  selectedBand === "B1" ? "bg-blue-500 text-white" : "bg-emerald-500 text-white"
+                }`}>
+                  {selectedBand === "B1" ? "Target Band B1" : "Target Band B2"}
+                </span>
+                <span>{selectedBand === "B1" ? question.languageInputB1?.levelName || "Intermediate Level" : question.languageInputB2?.levelName || "Upper-Intermediate Level"}</span>
+              </div>
+              <p className="text-slate-300">
+                {selectedBand === "B1"
+                  ? question.languageInputB1?.levelGoal || "Focus on clear sentence structures, simple connectors, direct structure and fluent delivery."
+                  : question.languageInputB2?.levelGoal || "Focus on sophisticated collocations, complex sentence structures, nuanced justification and connected speech."}
+              </p>
+            </div>
+          </div>
+
+          {/* LEVEL-MATCHED VOCABULARY & PHRASES */}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Sparkles className={`w-4 h-4 ${selectedBand === "B1" ? "text-blue-400" : "text-emerald-400"}`} />
+                <span className="text-xs font-bold text-white uppercase tracking-wider">
+                  {selectedBand === "B1" ? "Band B1 Vocabulary & Phrases" : "Band B2 Collocations & Idiomatic Phrases"}
+                </span>
+              </div>
+              <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                selectedBand === "B1" ? "bg-blue-500/20 text-blue-300 border border-blue-500/30" : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+              }`}>
+                {selectedBand} Vocabulary Kit
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              {(selectedBand === "B1"
+                ? question.languageInputB1?.vocabulary || []
+                : question.languageInputB2?.vocabulary || []
+              ).map((item, i) => (
+                <div
+                  key={i}
+                  className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-2.5 flex flex-col justify-between space-y-1 hover:border-slate-700 transition"
+                >
+                  <div className="flex items-start justify-between gap-1.5">
+                    <span className="font-semibold text-xs text-white">
+                      {item.phrase}
+                    </span>
+                    {item.type && (
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 flex-shrink-0 font-medium">
+                        {item.type}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[11px] text-slate-400 italic">
+                    {item.meaningVi}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Response Formula & Tips */}
+          {/* LEVEL-MATCHED SENTENCE FRAMES & TRANSITIONS */}
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
             <div className="flex items-center space-x-2 text-indigo-400 font-bold text-xs uppercase tracking-wider">
               <Lightbulb className="w-4 h-4" />
-              <span>Response Structure Formula (Mẹo Cấu Trúc Trả Lời)</span>
+              <span>
+                {selectedBand === "B1" ? "Band B1 Sentence Frames & Connectors" : "Band B2 Discourse Markers & Templates"}
+              </span>
+            </div>
+
+            {/* Transition Chips */}
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                Recommended Connectors (Từ nối chuyển ý):
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {(selectedBand === "B1"
+                  ? question.languageInputB1?.transitionPhrases || []
+                  : question.languageInputB2?.transitionPhrases || []
+                ).map((phrase, i) => (
+                  <span
+                    key={i}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${
+                      selectedBand === "B1"
+                        ? "bg-blue-950/40 border-blue-800/40 text-blue-200"
+                        : "bg-emerald-950/40 border-emerald-800/40 text-emerald-200"
+                    }`}
+                  >
+                    {phrase}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Sentence Templates by Stage */}
+            <div className="space-y-2.5 pt-2 border-t border-slate-800">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                Speaking Templates by Stage:
+              </span>
+              {(selectedBand === "B1"
+                ? question.languageInputB1?.sentenceFrames || []
+                : question.languageInputB2?.sentenceFrames || []
+              ).map((stageItem, i) => (
+                <div key={i} className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3 space-y-1.5">
+                  <span className={`text-xs font-bold block ${
+                    selectedBand === "B1" ? "text-blue-300" : "text-emerald-300"
+                  }`}>
+                    {stageItem.stage}
+                  </span>
+                  <ul className="space-y-1 text-xs text-slate-300">
+                    {stageItem.templates.map((tpl, j) => (
+                      <li key={j} className="flex items-start gap-1.5">
+                        <span className="text-slate-500 font-mono text-[11px] mt-0.5">•</span>
+                        <span className="font-sans italic">"{tpl}"</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* LEVEL-MATCHED RESPONSE FORMULA */}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+            <div className="flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider">
+              <Award className="w-4 h-4" />
+              <span>
+                {selectedBand === "B1" ? "Band B1 4-Step Answering Formula" : "Band B2 4-Step Strategic Blueprint"}
+              </span>
             </div>
             <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-              {question.tips.map((tip, i) => (
-                <li key={i} className="flex items-start gap-2 bg-slate-800/50 p-2.5 rounded-lg border border-slate-700/50">
-                  <span className="w-5 h-5 rounded-md bg-indigo-500/20 text-indigo-300 font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+              {(selectedBand === "B1"
+                ? question.languageInputB1?.responseFormula || question.tips
+                : question.languageInputB2?.responseFormula || question.tips
+              ).map((tip, i) => (
+                <li key={i} className="flex items-start gap-2.5 bg-slate-800/50 p-2.5 rounded-lg border border-slate-700/50">
+                  <span className={`w-5 h-5 rounded-md font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                    selectedBand === "B1"
+                      ? "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                      : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                  }`}>
                     {i + 1}
                   </span>
                   <span>{tip}</span>
@@ -316,7 +471,7 @@ export const PracticeModeView: React.FC<PracticeModeViewProps> = ({
             </ul>
           </div>
 
-          {/* Bilingual EN-VI Pronunciation & Intonation Guide */}
+          {/* LEVEL-MATCHED PRONUNCIATION & INTONATION GUIDE */}
           <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
             <button
               onClick={() => setIsPronunciationOpen(!isPronunciationOpen)}
@@ -324,7 +479,9 @@ export const PracticeModeView: React.FC<PracticeModeViewProps> = ({
             >
               <div className="flex items-center space-x-2">
                 <Globe className="w-4 h-4 text-indigo-400" />
-                <span>Bilingual EN-VI Pronunciation & Intonation Guide</span>
+                <span>
+                  {selectedBand === "B1" ? "Band B1 Pronunciation & Fluency Guide" : "Band B2 Connected Speech & Intonation Guide"}
+                </span>
               </div>
               {isPronunciationOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
@@ -333,75 +490,49 @@ export const PracticeModeView: React.FC<PracticeModeViewProps> = ({
               <div className="p-5 space-y-4 text-xs sm:text-sm text-slate-300">
                 <div className="space-y-2 border-b border-slate-800 pb-3">
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    English Phonetics & Pitch Contour:
+                    Phonetic Transcription & Rhythm:
                   </p>
-                  <p className="font-mono text-emerald-400 bg-slate-950 px-3 py-2 rounded-lg border border-slate-800">
-                    {question.pronunciationGuide.english.phonetic}
+                  <p className="font-mono text-emerald-400 bg-slate-950 px-3 py-2 rounded-lg border border-slate-800 text-xs">
+                    {(selectedBand === "B1"
+                      ? question.languageInputB1?.pronunciationGuide?.phonetics
+                      : question.languageInputB2?.pronunciationGuide?.phonetics) || question.pronunciationGuide.english.phonetic}
                   </p>
-                  <p><strong>Intonation:</strong> {question.pronunciationGuide.english.intonation}</p>
-                  <p><strong>Stress & Linking:</strong> {question.pronunciationGuide.english.stressAndLinking}</p>
+                  <p>
+                    <strong>Intonation Contour:</strong>{" "}
+                    {(selectedBand === "B1"
+                      ? question.languageInputB1?.pronunciationGuide?.intonation
+                      : question.languageInputB2?.pronunciationGuide?.intonation) || question.pronunciationGuide.english.intonation}
+                  </p>
+                  <p>
+                    <strong>Stress & Linking:</strong>{" "}
+                    {(selectedBand === "B1"
+                      ? question.languageInputB1?.pronunciationGuide?.stressAndLinking
+                      : question.languageInputB2?.pronunciationGuide?.stressAndLinking) || question.pronunciationGuide.english.stressAndLinking}
+                  </p>
                 </div>
 
                 <div className="space-y-1.5 text-slate-300">
                   <p className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-2">
-                    Hướng Dẫn Bằng Tiếng Việt (Vietnamese Guide):
+                    Hướng Dẫn Thực Hành (Vietnamese Advice):
                   </p>
-                  <p>• <strong>Phát âm:</strong> {question.pronunciationGuide.vietnamese.huongDanPhatAm}</p>
-                  <p>• <strong>Ngữ điệu:</strong> {question.pronunciationGuide.vietnamese.nguDieuVaNhanGiong}</p>
-                  <p>• <strong>Mẹo:</strong> {question.pronunciationGuide.vietnamese.meoTraLoi}</p>
+                  <p>
+                    {(selectedBand === "B1"
+                      ? question.languageInputB1?.pronunciationGuide?.vietnameseAdvice
+                      : question.languageInputB2?.pronunciationGuide?.vietnameseAdvice) || question.pronunciationGuide.vietnamese.huongDanPhatAm}
+                  </p>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Target Band Model Answers (B1 & B2) */}
+          {/* TARGET BAND MODEL ANSWER */}
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
               <div className="flex items-center space-x-2">
-                <Award className="w-4 h-4 text-emerald-400" />
+                <Award className={`w-4 h-4 ${selectedBand === "B1" ? "text-blue-400" : "text-emerald-400"}`} />
                 <span className="text-xs font-bold text-white uppercase tracking-wider">
-                  VSTEP Model Answer Comparison
+                  {selectedBand === "B1" ? "Target Band B1 Model Answer (4.0 - 5.5)" : "Target Band B2 Model Answer (6.0 - 8.0)"}
                 </span>
-              </div>
-
-              {/* Band B1 vs B2 Switcher */}
-              <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800">
-                <button
-                  onClick={() => setSelectedBand("B1")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
-                    selectedBand === "B1"
-                      ? "bg-blue-600 text-white shadow-md"
-                      : "text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  <span>Band B1 (4.0 - 5.5)</span>
-                </button>
-
-                <button
-                  onClick={() => setSelectedBand("B2")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
-                    selectedBand === "B2"
-                      ? "bg-emerald-600 text-white shadow-md"
-                      : "text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  <span>Band B2 (6.0 - 8.0)</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Band Description & TTS Button */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-              <div className="text-xs text-slate-300">
-                {selectedBand === "B1" ? (
-                  <p>
-                    <strong className="text-blue-400">Band B1 Level:</strong> Clear, accessible sentences with standard connectors (<em>First</em>, <em>Second</em>, <em>Also</em>, <em>In conclusion</em>). Easy to memorize and deliver fluently.
-                  </p>
-                ) : (
-                  <p>
-                    <strong className="text-emerald-400">Band B2 Level:</strong> Advanced collocations, compound-complex structures, and nuanced justification (<em>first and foremost</em>, <em>cost-effective</em>, <em>rule out</em>, <em>all things considered</em>).
-                  </p>
-                )}
               </div>
 
               <button
@@ -419,7 +550,7 @@ export const PracticeModeView: React.FC<PracticeModeViewProps> = ({
                 }`}
               >
                 <Volume2 className="w-3.5 h-3.5" />
-                <span>Listen {selectedBand} Model (British TTS)</span>
+                <span>Listen {selectedBand} Model (British Female TTS)</span>
               </button>
             </div>
 

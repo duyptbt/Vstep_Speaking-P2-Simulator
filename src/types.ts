@@ -10,6 +10,32 @@ export interface Part2Option {
   disadvantages: string[];
 }
 
+export interface VocabularyItem {
+  phrase: string;
+  meaningVi: string;
+  type?: string; // e.g. "Core Vocabulary", "Topic Collocation", "Adjective", "Idiomatic Phrase"
+  exampleUsage?: string;
+}
+
+export interface LevelLanguageInput {
+  targetBand: "B1" | "B2";
+  levelName: string; // e.g. "Band B1 (Intermediate 4.0 - 5.5)" or "Band B2 (Upper-Intermediate 6.0 - 8.0)"
+  levelGoal: string; // Summary of expectations
+  vocabulary: VocabularyItem[];
+  transitionPhrases: string[];
+  sentenceFrames: {
+    stage: string; // e.g. "1. Opening & Choice", "2. Reasons & Benefits", "3. Rejecting Alternatives", "4. Conclusion"
+    templates: string[];
+  }[];
+  responseFormula: string[];
+  pronunciationGuide: {
+    phonetics: string;
+    intonation: string;
+    stressAndLinking: string;
+    vietnameseAdvice: string;
+  };
+}
+
 export interface Part2Question {
   id: string;
   situationTitle: string;
@@ -30,6 +56,8 @@ export interface Part2Question {
       meoTraLoi: string;
     };
   };
+  languageInputB1: LevelLanguageInput; // Level-specific language toolkit for Band B1
+  languageInputB2: LevelLanguageInput; // Level-specific language toolkit for Band B2
   modelAnswerB1: string; // Target Band B1 (4.0 - 5.5) Model Answer
   modelAnswerB2: string; // Target Band B2 (6.0 - 8.0) Model Answer
   modelAnswer: string; // Fallback / Default (Band B2)
