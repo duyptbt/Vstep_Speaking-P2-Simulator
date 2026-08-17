@@ -29,7 +29,7 @@ export const InstructionsModal: React.FC<InstructionsModalProps> = ({ isOpen, on
               VSTEP Speaking Part 2 Format & Instructions
             </h2>
             <p className="text-xs sm:text-sm text-slate-500">
-              Solution Discussion (Thảo Luận Giải Pháp) • Target Band B2 (6.0 - 8.0)
+              Solution Discussion (Thảo Luận Giải Pháp) • Spoken as <strong className="font-mono text-amber-700">[vi: step]</strong> • Target Band B2 (6.0 - 8.0)
             </p>
           </div>
         </div>

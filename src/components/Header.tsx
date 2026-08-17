@@ -71,7 +71,10 @@ export const Header: React.FC<HeaderProps> = ({
               <h1 className={`text-base sm:text-lg font-extrabold ${theme.textPrimary} tracking-tight`}>
                 VSTEP Speaking Part 2
               </h1>
-              <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-wider">
+              <span className="hidden sm:inline-flex px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/20 text-[10px] font-mono font-medium" title="Spoken phonetically as [vi: step]">
+                [vi: step]
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-wider">
                 Solution Discussion
               </span>
             </div>

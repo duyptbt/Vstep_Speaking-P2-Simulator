@@ -107,6 +107,17 @@ export function setCustomTTSVoice(voice: SpeechSynthesisVoice) {
   selectedVoice = voice;
 }
 
+/**
+ * Formats text for accurate phonetic speech synthesis.
+ * Ensures "VSTEP" is spoken phonetically as [vi: step] ("Vee-step") rather than spelling out individual letters.
+ */
+export function formatPhoneticTextForTTS(text: string): string {
+  if (!text) return "";
+  return text
+    .replace(/\bVSTEP\b/gi, "Vee-step")
+    .replace(/\bV-STEP\b/gi, "Vee-step");
+}
+
 export function speakText(
   text: string,
   options?: {
@@ -126,7 +137,10 @@ export function speakText(
   // Cancel any ongoing speech
   stopSpeaking();
 
-  const utterance = new SpeechSynthesisUtterance(text);
+  // Normalize phonetic pronunciations (e.g. VSTEP -> Vee-step [vi: step])
+  const formattedText = formatPhoneticTextForTTS(text);
+
+  const utterance = new SpeechSynthesisUtterance(formattedText);
   currentUtterance = utterance;
 
   const voice = getSelectedTTSVoice();
