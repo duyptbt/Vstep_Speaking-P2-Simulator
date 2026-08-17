@@ -1,5 +1,5 @@
 export type AppMode = "instructions" | "test" | "practice" | "results";
-export type AppTheme = "midnight" | "light" | "emerald" | "sunset";
+export type AppTheme = "midnight" | "light" | "warmLight" | "emerald" | "sunset";
 
 export interface Part2Option {
   id: string;
