@@ -26,6 +26,7 @@ interface HeaderProps {
   onSelectSet: (set: QuestionSet) => void;
   onOpenInstructions: () => void;
   onOpenAudioTool: () => void;
+  onOpenVoiceStudio: () => void;
   currentTheme: AppTheme;
   onSelectTheme: (theme: AppTheme) => void;
 }
@@ -37,6 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectSet,
   onOpenInstructions,
   onOpenAudioTool,
+  onOpenVoiceStudio,
   currentTheme,
   onSelectTheme
 }) => {
@@ -144,8 +146,11 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* TTS Voice Speed Controller */}
-          <TtsSpeedControl />
+          {/* TTS Voice Accent & Speed Controller */}
+          <TtsSpeedControl
+            isLight={theme.isLight}
+            onOpenVoiceStudio={onOpenVoiceStudio}
+          />
 
           {/* Audio Merger & Downloader Tool Modal Button */}
           <button

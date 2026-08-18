@@ -9,6 +9,7 @@ import { TestModeView } from "./components/TestModeView";
 import { PracticeModeView } from "./components/PracticeModeView";
 import { ResultsView } from "./components/ResultsView";
 import { AudioMergerModal } from "./components/AudioMergerModal";
+import { TtsVoiceModal } from "./components/TtsVoiceModal";
 import { Clock, Split, Sparkles, BookOpen } from "lucide-react";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
   const [testResult, setTestResult] = useState<TestResult | null>(null);
   const [isInstructionsOpen, setIsInstructionsOpen] = useState<boolean>(false);
   const [isAudioToolOpen, setIsAudioToolOpen] = useState<boolean>(false);
+  const [isVoiceStudioOpen, setIsVoiceStudioOpen] = useState<boolean>(false);
 
   const theme = THEMES[currentTheme] || THEMES.midnight;
 
@@ -61,6 +63,7 @@ export default function App() {
         }}
         onOpenInstructions={() => setIsInstructionsOpen(true)}
         onOpenAudioTool={() => setIsAudioToolOpen(true)}
+        onOpenVoiceStudio={() => setIsVoiceStudioOpen(true)}
         currentTheme={currentTheme}
         onSelectTheme={setCurrentTheme}
       />
@@ -149,6 +152,13 @@ export default function App() {
         questionSet={selectedSet}
         userTranscripts={testResult?.userTranscripts}
         notesTaken={testResult?.notesTaken}
+      />
+
+      {/* TTS Voice Studio & Accent Selector Modal */}
+      <TtsVoiceModal
+        isOpen={isVoiceStudioOpen}
+        onClose={() => setIsVoiceStudioOpen(false)}
+        isLight={theme.isLight}
       />
     </div>
   );

@@ -222,13 +222,16 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
             </span>
             <h3 className="text-lg font-bold text-slate-800 mt-0.5 leading-snug">{question.situation}</h3>
           </div>
-          <button
-            onClick={() => speakText(question.modelAnswer)}
-            className="px-3.5 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 self-start sm:self-center"
-          >
-            <Volume2 className="w-4 h-4 text-blue-600" />
-            <span>Listen Model Answer</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-center">
+            <TtsSpeedControl isLight={true} />
+            <button
+              onClick={() => speakText(question.modelAnswer)}
+              className="px-3.5 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <Volume2 className="w-4 h-4 text-blue-600" />
+              <span>Listen Model Answer</span>
+            </button>
+          </div>
         </div>
 
         {/* User Response Transcript */}
